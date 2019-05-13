@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        applicationId "enigma.redbeemedia.com.tutorial1"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
+    google() //Needed for ExoPlayer
+    jcenter() //Needed for ExoPlayer
+}
+
+dependencies {
+    if(findProject(':core') != null) {
+        implementation project(":core")
+    } else {
+        implementation "com.github.EricssonBroadcastServices:EnigmaRiverAndroid:core:__REPLACE_WITH_RELEASE_VERSION__"
+    }
+}
