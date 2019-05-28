@@ -38,6 +38,6 @@ dependencies {
     if(findProject(':core') != null) {
         implementation project(":core")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r1.0.16-BETA-2'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r1.0.16-BETA-3'
     }
 }
