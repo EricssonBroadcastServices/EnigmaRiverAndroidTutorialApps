@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.redbeemedia.enigma.core.error.AssetGeoBlockedError;
 import com.redbeemedia.enigma.core.error.AssetNotAvailableError;
+import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.error.InvalidAssetError;
 import com.redbeemedia.enigma.core.error.NoSupportedMediaFormatsError;
 import com.redbeemedia.enigma.core.playbacksession.BasePlaybackSessionListener;
@@ -33,7 +34,6 @@ import com.redbeemedia.enigma.core.playable.AssetPlayable;
 import com.redbeemedia.enigma.core.playrequest.IPlayRequest;
 import com.redbeemedia.enigma.core.playrequest.PlayRequest;
 import com.redbeemedia.enigma.core.playrequest.BasePlayResultHandler;
-import com.redbeemedia.enigma.core.error.Error;
 
 //controls
 import com.redbeemedia.enigma.core.player.controls.IEnigmaPlayerControls;
@@ -162,7 +162,7 @@ public class PlaybackActivity extends Activity{
         //Create a play request
         IPlayRequest playRequest = new PlayRequest(playable, new BasePlayResultHandler() {
             @Override
-            public void onError(Error error) {
+            public void onError(EnigmaError error) {
                 Log.e(TAG, "onError: " + error.getTrace());
                 if(error instanceof AssetGeoBlockedError) {
                     showMessage("This asset it not available for your region");

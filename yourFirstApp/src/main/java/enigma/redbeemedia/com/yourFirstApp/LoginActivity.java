@@ -9,7 +9,7 @@ import android.widget.Toast;
 import android.content.Intent;
 import com.redbeemedia.enigma.core.error.InvalidCredentialsError;
 import com.redbeemedia.enigma.core.login.EnigmaLogin;
-import com.redbeemedia.enigma.core.error.Error;
+import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.login.ILoginResultHandler;
 import com.redbeemedia.enigma.core.login.UserLoginRequest;
 import com.redbeemedia.enigma.core.session.ISession;
@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
             }
 
             @Override
-            public void onError(Error error) {
+            public void onError(EnigmaError error) {
                 if(error instanceof InvalidCredentialsError) {
                     Toast.makeText(LoginActivity.this, "Incorrect username/password", Toast.LENGTH_LONG).show();
                 } else {

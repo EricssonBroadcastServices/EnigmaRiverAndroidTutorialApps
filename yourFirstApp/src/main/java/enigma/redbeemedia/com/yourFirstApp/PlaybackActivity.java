@@ -19,7 +19,7 @@ import com.redbeemedia.enigma.core.playable.AssetPlayable;
 import com.redbeemedia.enigma.core.playrequest.IPlayRequest;
 import com.redbeemedia.enigma.core.playrequest.PlayRequest;
 import com.redbeemedia.enigma.core.playrequest.BasePlayResultHandler;
-import com.redbeemedia.enigma.core.error.Error;
+import com.redbeemedia.enigma.core.error.EnigmaError;
 
 public class PlaybackActivity extends Activity{
     public static final String EXTRA_SESSION = "session";
@@ -64,7 +64,7 @@ public class PlaybackActivity extends Activity{
         //Create a play request
         IPlayRequest playRequest = new PlayRequest(playable, new BasePlayResultHandler() {
             @Override
-            public void onError(Error error) {
+            public void onError(EnigmaError error) {
                 if(error instanceof AssetGeoBlockedError) {
                     showMessage("This asset it not available for your region");
                 } else if(error instanceof AssetNotAvailableError) {

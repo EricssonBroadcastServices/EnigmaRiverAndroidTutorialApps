@@ -2,7 +2,7 @@ package enigma.redbeemedia.com.customcontrols;
 
 import android.util.Log;
 
-import com.redbeemedia.enigma.core.error.Error;
+import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.player.controls.IControlResultHandler;
 
 public class ControlResultHandler implements IControlResultHandler {
@@ -25,7 +25,7 @@ public class ControlResultHandler implements IControlResultHandler {
     }
 
     @Override
-    public void onError(Error error) {
+    public void onError(EnigmaError error) {
         Log.d(logTag, controlType + " onError: " + error.toString());
     }
 
