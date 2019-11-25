@@ -1,1 +1,1 @@
-include ':yourFirstApp', ':customcontrols'
+include ':yourFirstApp', ':customcontrols', ':audioAndSubtitles'

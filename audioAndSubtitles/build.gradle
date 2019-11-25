@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "enigma.redbeemedia.com.yourFirstApp"
+        applicationId "enigma.redbeemedia.com.audioandsubtitles"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -46,6 +46,6 @@ dependencies {
     } else {
         implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r1.0.32-BETA-2'
     }
-    
-    implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
+
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
