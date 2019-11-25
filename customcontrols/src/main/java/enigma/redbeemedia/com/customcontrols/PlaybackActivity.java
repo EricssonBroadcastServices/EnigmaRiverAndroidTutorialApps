@@ -1,10 +1,10 @@
 package enigma.redbeemedia.com.customcontrols;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,35 +17,37 @@ import com.redbeemedia.enigma.core.error.AssetNotAvailableError;
 import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.error.InvalidAssetError;
 import com.redbeemedia.enigma.core.error.NoSupportedMediaFormatsError;
+import com.redbeemedia.enigma.core.playable.AssetPlayable;
+import com.redbeemedia.enigma.core.playable.IPlayable;
 import com.redbeemedia.enigma.core.playbacksession.BasePlaybackSessionListener;
 import com.redbeemedia.enigma.core.playbacksession.IPlaybackSession;
 import com.redbeemedia.enigma.core.playbacksession.IPlaybackSessionListener;
-import com.redbeemedia.enigma.core.player.EnigmaPlayerState;
-import com.redbeemedia.enigma.core.player.listener.BaseEnigmaPlayerListener;
-import com.redbeemedia.enigma.core.player.timeline.ITimelinePosition;
-import com.redbeemedia.enigma.core.session.ISession;
-import com.redbeemedia.enigma.core.time.Duration;
-import com.redbeemedia.enigma.exoplayerintegration.ExoPlayerTech;
-import com.redbeemedia.enigma.core.player.IPlayerImplementation;
-import com.redbeemedia.enigma.core.player.IEnigmaPlayer;
 import com.redbeemedia.enigma.core.player.EnigmaPlayer;
-import com.redbeemedia.enigma.core.playable.IPlayable;
-import com.redbeemedia.enigma.core.playable.AssetPlayable;
+import com.redbeemedia.enigma.core.player.EnigmaPlayerState;
+import com.redbeemedia.enigma.core.player.IEnigmaPlayer;
+import com.redbeemedia.enigma.core.player.IPlayerImplementation;
+import com.redbeemedia.enigma.core.player.listener.BaseEnigmaPlayerListener;
+import com.redbeemedia.enigma.core.playrequest.BasePlayResultHandler;
 import com.redbeemedia.enigma.core.playrequest.IPlayRequest;
 import com.redbeemedia.enigma.core.playrequest.PlayRequest;
-import com.redbeemedia.enigma.core.playrequest.BasePlayResultHandler;
+import com.redbeemedia.enigma.core.session.ISession;
+import com.redbeemedia.enigma.core.time.Duration;
+import com.redbeemedia.enigma.core.virtualui.BaseVirtualButtonListener;
+import com.redbeemedia.enigma.core.virtualui.IVirtualButton;
+import com.redbeemedia.enigma.core.virtualui.IVirtualControls;
+import com.redbeemedia.enigma.core.virtualui.IVirtualControlsSettings;
+import com.redbeemedia.enigma.core.virtualui.VirtualControlsSettings;
+import com.redbeemedia.enigma.core.virtualui.impl.VirtualControls;
+import com.redbeemedia.enigma.exoplayerintegration.ExoPlayerTech;
 
-//controls
-import com.redbeemedia.enigma.core.player.controls.IEnigmaPlayerControls;
 
 public class PlaybackActivity extends Activity{
     private static final String TAG = "custom_controls";
     public static final String EXTRA_SESSION = "session";
-    private static final long SEEK_JUMP_SECONDS = 30;
+    private static final Duration SEEK_JUMP = Duration.seconds(30);
 
     private Handler handler;
     private IEnigmaPlayer enigmaPlayer;
-    private IEnigmaPlayerControls controls;
     private TimelineView timelineView;
     private ImageButton ibtnReset;
     private ImageButton ibtnSeekBack;
@@ -86,34 +88,15 @@ public class PlaybackActivity extends Activity{
         timelineView.connectTo(enigmaPlayer);
         ibtnPlayPause.connectTo(enigmaPlayer);
 
-        //controls
-        controls = enigmaPlayer.getControls();
+        //Hook up controls
+        IVirtualControlsSettings virtualControlsSettings = new VirtualControlsSettings()
+                .setSeekBackwardStep(SEEK_JUMP)
+                .setSeekForwardStep(SEEK_JUMP);
+        IVirtualControls virtualControls = VirtualControls.create(enigmaPlayer, virtualControlsSettings);
 
-        ibtnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ITimelinePosition start = enigmaPlayer.getTimeline().getCurrentStartBound();
-                if (start != null) {
-                    controls.seekTo(start, new ControlResultHandler(TAG, "reset"));
-                }
-            }
-        });
-
-        ibtnSeekBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ITimelinePosition currentPosition = enigmaPlayer.getTimeline().getCurrentPosition();
-                controls.seekTo(currentPosition.subtract(Duration.seconds(SEEK_JUMP_SECONDS)), new ControlResultHandler(TAG, "seekBack"));
-            }
-        });
-
-        ibtnSeekForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ITimelinePosition currentPosition = enigmaPlayer.getTimeline().getCurrentPosition();
-                controls.seekTo(currentPosition.add(Duration.seconds(SEEK_JUMP_SECONDS)), new ControlResultHandler(TAG, "seekForward"));
-            }
-        });
+        bindButton(ibtnReset, virtualControls.getRestart());
+        bindButton(ibtnSeekBack, virtualControls.getRewind());
+        bindButton(ibtnSeekForward, virtualControls.getFastForward());
 
         ibtnStop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +133,23 @@ public class PlaybackActivity extends Activity{
                 }
             }
         }, handler);
+    }
+
+    private void bindButton(View button, IVirtualButton virtualButton) {
+        button.setOnClickListener(v -> virtualButton.click());
+        syncButtonState(button, virtualButton);
+
+        virtualButton.addListener(new BaseVirtualButtonListener() {
+            @Override
+            public void onStateChanged() {
+                syncButtonState(button, virtualButton);
+            }
+        }, handler);
+    }
+
+    private void syncButtonState(View button, IVirtualButton virtualButton) {
+        button.setEnabled(virtualButton.isEnabled());
+        button.setVisibility(virtualButton.isRelevant() ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
