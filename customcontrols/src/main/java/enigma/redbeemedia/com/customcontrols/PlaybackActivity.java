@@ -82,6 +82,7 @@ public class PlaybackActivity extends Activity{
         //Create ExoPlayerTech and connect a compatible view.
         ExoPlayerTech exoPlayerTech = new ExoPlayerTech(this, "customcontrols");
         exoPlayerTech.attachView(this.findViewById(R.id.player_view));
+        exoPlayerTech.hideController();
 
         //Create an EnigmaPlayer.
         enigmaPlayer = createEnigmaPlayer(session, exoPlayerTech, handler);

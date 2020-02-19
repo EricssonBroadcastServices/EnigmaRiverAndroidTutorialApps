@@ -13,21 +13,18 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/timelineView">
+        app:layout_constraintBottom_toTopOf="@+id/timelineView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
             android:id="@+id/ibtnReset"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@android:drawable/ic_menu_rotate" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
 
         <ImageButton
             android:id="@+id/ibtnSeekBack"
@@ -40,16 +37,6 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@android:drawable/ic_media_ff" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
         <enigma.redbeemedia.com.customcontrols.PausePlayImageButton
             android:id="@+id/ibtnPlayPause"
