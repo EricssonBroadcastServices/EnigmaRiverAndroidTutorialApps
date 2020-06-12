@@ -116,9 +116,9 @@ public class PlaybackActivity extends Activity{
         enigmaPlayer.addListener(new BaseEnigmaPlayerListener(){
             @Override
             public void onStateChanged(EnigmaPlayerState from, EnigmaPlayerState to) {
-                if (to == EnigmaPlayerState.LOADING){
+                if (to == EnigmaPlayerState.LOADING || to == EnigmaPlayerState.BUFFERING){
                     pbLoader.setVisibility(View.VISIBLE);
-                }else if (to == EnigmaPlayerState.LOADED){
+                }else if (to == EnigmaPlayerState.LOADED || from == EnigmaPlayerState.BUFFERING){
                     pbLoader.setVisibility(View.GONE);
                 }
             }
