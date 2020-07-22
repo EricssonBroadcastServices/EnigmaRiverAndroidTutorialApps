@@ -1,1 +1,4 @@
-include ':yourFirstApp', ':customcontrols', ':audioAndSubtitles'
+include ':yourFirstApp'
+include ':customcontrols'
+include ':audioAndSubtitles'
+include ':downloads'
