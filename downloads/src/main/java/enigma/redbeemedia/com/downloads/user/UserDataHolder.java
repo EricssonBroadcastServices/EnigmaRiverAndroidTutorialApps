@@ -9,13 +9,13 @@ import com.redbeemedia.enigma.core.login.UserLoginRequest;
 import com.redbeemedia.enigma.core.session.ISession;
 import com.redbeemedia.enigma.core.util.OpenContainer;
 import com.redbeemedia.enigma.core.util.OpenContainerUtil;
+import com.redbeemedia.enigma.exposureutils.BaseExposureResultHandler;
 import com.redbeemedia.enigma.exposureutils.EnigmaExposure;
 import com.redbeemedia.enigma.exposureutils.GetAvailabilityKeys;
-import com.redbeemedia.enigma.exposureutils.IExposureResultHandler;
 import com.redbeemedia.enigma.exposureutils.models.availability.ApiAvailabilityKeys;
 
-import enigma.redbeemedia.com.downloads.Placeholders;
 import enigma.redbeemedia.com.downloads.MyApplication;
+import enigma.redbeemedia.com.downloads.Placeholders;
 
 public class UserDataHolder {
     private static final OpenContainer<UserData> userData = new OpenContainer<>(null);
@@ -33,7 +33,7 @@ public class UserDataHolder {
             public void onSuccess(ISession session) {
                 EnigmaExposure enigmaExposure = new EnigmaExposure(session);
                 enigmaExposure.setCallbackHandler(handler);
-                enigmaExposure.doRequest(new GetAvailabilityKeys(new IExposureResultHandler<ApiAvailabilityKeys>() {
+                enigmaExposure.doRequest(new GetAvailabilityKeys(new BaseExposureResultHandler<ApiAvailabilityKeys>() {
                     @Override
                     public void onSuccess(ApiAvailabilityKeys result) {
                         UserData userData = new UserData(session, result.getAvailabilityKeys());

@@ -14,6 +14,10 @@ public class DialogUtil {
     public static void showError(Activity activity, String description, EnigmaError error) {
         error.printStackTrace();
         AndroidThreadUtil.runOnUiThread(() -> {
+            if(activity.isFinishing() || activity.isDestroyed()) {
+                return;
+            }
+
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
             if(error instanceof UnexpectedHttpStatusError) {
                 HttpStatus httpStatus = ((UnexpectedHttpStatusError) error).getHttpStatus();

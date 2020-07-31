@@ -24,9 +24,6 @@ import com.redbeemedia.enigma.core.network.INetworkMonitor;
 import com.redbeemedia.enigma.core.playable.AssetPlayable;
 import com.redbeemedia.enigma.core.session.ISession;
 import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
-import com.redbeemedia.enigma.download.DownloadStartRequest;
-import com.redbeemedia.enigma.download.EnigmaDownload;
-import com.redbeemedia.enigma.download.resulthandler.BaseDownloadStartResultHandler;
 import com.redbeemedia.enigma.exposureutils.download.EnigmaDownloadHelper;
 import com.redbeemedia.enigma.exposureutils.models.asset.ApiAsset;
 import com.redbeemedia.enigma.exposureutils.models.localized.ApiLocalizedData;
@@ -130,9 +127,8 @@ public class ListAssetsActivity extends Activity {
         TextView assetIdView = cardView.findViewById(R.id.assetId);
         assetIdView.setText(apiAsset.getAssetId());
 
-
         TextView titleView = cardView.findViewById(R.id.title);
-        titleView.setText(localizedData != null ? localizedData.getTitle() : apiAsset.getOriginalTitle());
+        titleView.setText(localizedData.getTitle());
 
         Button playButton = cardView.findViewById(R.id.playButton);
         playButton.setOnClickListener(v -> {
@@ -144,7 +140,7 @@ public class ListAssetsActivity extends Activity {
             }
         });
 
-        AsyncButton downloadButton = cardView.findViewById(R.id.downloadButton);
+        Button downloadButton = cardView.findViewById(R.id.downloadButton);
         UserData userData = UserDataHolder.getUserData();
         if(userData != null) {
             if(EnigmaDownloadHelper.isAvailableToDownload(apiAsset, System.currentTimeMillis(), userData.getAvailabilityKeys())) {
@@ -152,28 +148,7 @@ public class ListAssetsActivity extends Activity {
                 downloadButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ISession session = UserDataHolder.getUserData().getSession();
-
-                        if(session != null) {
-                            downloadButton.setWaiting(true);
-                            EnigmaDownload enigmaDownload = new EnigmaDownload(MyApplication.getBusinessUnit());
-                            DownloadStartRequest downloadStartRequest = new DownloadStartRequest(apiAsset.getAssetId(), session);
-                            enigmaDownload.startAssetDownload(downloadStartRequest, new BaseDownloadStartResultHandler() {
-                                @Override
-                                public void onStarted() {
-                                    downloadButton.setWaiting(false);
-                                    showToast("Download started");
-                                }
-
-                                @Override
-                                public void onError(EnigmaError error) {
-                                    downloadButton.setWaiting(false);
-                                    showError("Could not start download", error);
-                                }
-                            }, handler);
-                        } else {
-                            showError("Please sign in", new NoSessionRejectionError());
-                        }
+                        ConfigureDownloadActivity.startActivity(ListAssetsActivity.this, apiAsset.getAssetId());
                     }
                 });
             } else {

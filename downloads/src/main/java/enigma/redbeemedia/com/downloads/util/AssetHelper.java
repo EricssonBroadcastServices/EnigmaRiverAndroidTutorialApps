@@ -1,10 +1,10 @@
 package enigma.redbeemedia.com.downloads.util;
 
 import com.redbeemedia.enigma.core.error.EnigmaError;
+import com.redbeemedia.enigma.exposureutils.BaseExposureResultHandler;
 import com.redbeemedia.enigma.exposureutils.EnigmaExposure;
 import com.redbeemedia.enigma.exposureutils.FieldSet;
 import com.redbeemedia.enigma.exposureutils.GetAllAssetsRequest;
-import com.redbeemedia.enigma.exposureutils.IExposureResultHandler;
 import com.redbeemedia.enigma.exposureutils.models.asset.ApiAsset;
 import com.redbeemedia.enigma.exposureutils.models.asset.ApiAssetList;
 
@@ -21,7 +21,7 @@ public class AssetHelper {
     }
 
     public static void getAllAssets(IAssetResultHandler resultHandler, int page) {
-        enigmaExposure.doRequest(new GetAllAssetsRequest(new IExposureResultHandler<ApiAssetList>() {
+        enigmaExposure.doRequest(new GetAllAssetsRequest(new BaseExposureResultHandler<ApiAssetList>() {
             @Override
             public void onSuccess(ApiAssetList result) {
                 boolean hasMore = result.getTotalCount() > result.getPageNumber()*result.getPageSize();
