@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr format="string" name="text" />
     <declare-styleable name="AsyncButton">
-        <attr format="string" name="text" />
+        <attr name="text" />
+    </declare-styleable>
+    <declare-styleable name="MultiSelection">
+        <attr name="text" />
     </declare-styleable>
 </resources>

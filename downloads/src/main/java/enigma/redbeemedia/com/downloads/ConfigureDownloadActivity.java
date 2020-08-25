@@ -18,22 +18,26 @@ import androidx.annotation.Nullable;
 
 import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
+import com.redbeemedia.enigma.download.AudioDownloadable;
 import com.redbeemedia.enigma.download.DownloadStartRequest;
 import com.redbeemedia.enigma.download.EnigmaDownload;
 import com.redbeemedia.enigma.download.IDownloadableInfo;
 import com.redbeemedia.enigma.download.IDownloadablePart;
 import com.redbeemedia.enigma.download.IEnigmaDownload;
+import com.redbeemedia.enigma.download.SubtitleDownloadable;
 import com.redbeemedia.enigma.download.VideoDownloadable;
 import com.redbeemedia.enigma.download.resulthandler.BaseDownloadStartResultHandler;
 import com.redbeemedia.enigma.download.resulthandler.BaseResultHandler;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import enigma.redbeemedia.com.downloads.user.UserData;
 import enigma.redbeemedia.com.downloads.user.UserDataHolder;
 import enigma.redbeemedia.com.downloads.util.DialogUtil;
 import enigma.redbeemedia.com.downloads.view.AsyncButton;
+import enigma.redbeemedia.com.downloads.view.MultiSelection;
 
 public class ConfigureDownloadActivity extends Activity {
     private static final String EXTRA_ASSET_ID = "assetId";
@@ -96,6 +100,16 @@ public class ConfigureDownloadActivity extends Activity {
                     videoOptions.add(null); //Auto
                     videoOptions.addAll(result.getVideoTracks());
                     videoTrackSpinnerAdapter.setDownloadableParts(videoOptions);
+
+                    MultiSelection<AudioDownloadable> audioTrackSelection = findViewById(R.id.audioTrackSelection);
+                    audioTrackSelection.setOptions(createOptions(result.getAudioTracks(), (track) -> track.getName()), selected -> {
+                        downloadStartRequest.setAudios(selected);
+                    });
+
+                    MultiSelection<SubtitleDownloadable> subtitleTrackSelection = findViewById(R.id.subtitleTrackSelection);
+                    subtitleTrackSelection.setOptions(createOptions(result.getSubtitleTracks(), (track) -> track.getName()), selected -> {
+                        downloadStartRequest.setSubtitles(selected);
+                    });
 
                     downloadButton.setEnabled(true);
                     downloadButton.setOnClickListener(v -> startDownload());
@@ -178,5 +192,17 @@ public class ConfigureDownloadActivity extends Activity {
             textView.setText(item != null ? item.getName() : "Auto");
             return textView;
         }
+    }
+
+    private static <T> List<MultiSelection.OptionItem<T>> createOptions(Collection<? extends T> items, IToStringFunction<T> getLabel) {
+        List<MultiSelection.OptionItem<T>> options = new ArrayList<>();
+        for(T item : items) {
+            options.add(new MultiSelection.OptionItem<>(getLabel.toString(item), item));
+        }
+        return options;
+    }
+
+    private interface IToStringFunction<T> {
+        String toString(T item);
     }
 }

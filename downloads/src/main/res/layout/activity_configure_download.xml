@@ -25,12 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:showDividers="middle"
+            android:divider="@drawable/item_divider"
             >
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:background="@drawable/item_background"
+                android:padding="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/videoTrackLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -44,7 +47,23 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     />
-            </RelativeLayout>
+           </RelativeLayout>
+            <enigma.redbeemedia.com.downloads.view.MultiSelection
+                android:id="@+id/audioTrackSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="Audio"
+                android:background="@drawable/item_background"
+                android:padding="7dp"
+                />
+            <enigma.redbeemedia.com.downloads.view.MultiSelection
+                android:id="@+id/subtitleTrackSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="Subtitles"
+                android:background="@drawable/item_background"
+                android:padding="7dp"
+                />
         </LinearLayout>
     </ScrollView>
     <RelativeLayout

@@ -3,6 +3,8 @@ package enigma.redbeemedia.com.downloads.user;
 import android.os.Handler;
 
 import com.redbeemedia.enigma.core.error.EnigmaError;
+import com.redbeemedia.enigma.core.error.ServerError;
+import com.redbeemedia.enigma.core.error.UnexpectedHttpStatusError;
 import com.redbeemedia.enigma.core.login.EnigmaLogin;
 import com.redbeemedia.enigma.core.login.ILoginResultHandler;
 import com.redbeemedia.enigma.core.login.UserLoginRequest;

@@ -25,6 +25,7 @@ import com.redbeemedia.enigma.core.playrequest.PlayRequest;
 import com.redbeemedia.enigma.core.session.ISession;
 import com.redbeemedia.enigma.exoplayerintegration.ExoPlayerTech;
 
+import enigma.redbeemedia.com.downloads.trackui.AbstractSpinner;
 import enigma.redbeemedia.com.downloads.user.UserData;
 import enigma.redbeemedia.com.downloads.user.UserDataHolder;
 
@@ -53,6 +54,9 @@ public class PlaybackActivity extends Activity{
 
         //Create an EnigmaPlayer.
         this.enigmaPlayer = createEnigmaPlayer(exoPlayerTech, handler);
+
+        ((AbstractSpinner<?>) findViewById(R.id.subtitle_spinner)).connectTo(enigmaPlayer);
+        ((AbstractSpinner<?>) findViewById(R.id.audio_spinner)).connectTo(enigmaPlayer);
 
         //Close activity when finished
         enigmaPlayer.addListener(new BaseEnigmaPlayerListener() {
