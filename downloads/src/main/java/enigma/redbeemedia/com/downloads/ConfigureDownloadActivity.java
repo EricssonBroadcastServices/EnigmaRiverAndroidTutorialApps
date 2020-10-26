@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.redbeemedia.enigma.core.error.EnigmaError;
+import com.redbeemedia.enigma.core.error.MaxDownloadCountLimitReachedError;
 import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
 import com.redbeemedia.enigma.download.AudioDownloadable;
 import com.redbeemedia.enigma.download.DownloadStartRequest;
@@ -111,8 +112,15 @@ public class ConfigureDownloadActivity extends Activity {
                         downloadStartRequest.setSubtitles(selected);
                     });
 
-                    downloadButton.setEnabled(true);
-                    downloadButton.setOnClickListener(v -> startDownload());
+                    updateDownloadCountText(result);
+
+                    if(result.isMaxDownloadCountReached()) {
+                        downloadButton.setEnabled(false);
+                        downloadButton.setText("Max download count reached");
+                    } else {
+                        downloadButton.setEnabled(true);
+                        downloadButton.setOnClickListener(v -> startDownload());
+                    }
                     scrollView.setVisibility(View.VISIBLE);
                 }
 
@@ -127,6 +135,21 @@ public class ConfigureDownloadActivity extends Activity {
         }
     }
 
+    private void updateDownloadCountText(IDownloadableInfo downloadableInfo) {
+        AndroidThreadUtil.runOnUiThread(() -> {
+            TextView downloadCountText = findViewById(R.id.downloadCountText);
+            int downloadCount = downloadableInfo.getDownloadCount();
+            int maxDownloadCount = downloadableInfo.getMaxDownloadCount();
+            if(downloadCount != IDownloadableInfo.UNAVAILABLE_INT
+               && maxDownloadCount != IDownloadableInfo.UNAVAILABLE_INT) {
+                downloadCountText.setVisibility(View.VISIBLE);
+                downloadCountText.setText("Asset downloaded "+downloadCount+"/"+maxDownloadCount+" times");
+            } else {
+                downloadCountText.setVisibility(View.GONE);
+            }
+        });
+    }
+
     private void startDownload() {
         downloadButton.setWaiting(true);
         enigmaDownload.startAssetDownload(downloadStartRequest, new BaseDownloadStartResultHandler() {
@@ -139,7 +162,11 @@ public class ConfigureDownloadActivity extends Activity {
             @Override
             public void onError(EnigmaError error) {
                 downloadButton.setWaiting(false);
-                showError("Could not start download", error);
+                if(error instanceof MaxDownloadCountLimitReachedError) {
+                    showInfo("Max download count reached", "You have reached your maximum number of downloads of this asset.");
+                } else {
+                    showError("Could not start download", error);
+                }
             }
         }, handler);
     }
@@ -153,6 +180,10 @@ public class ConfigureDownloadActivity extends Activity {
 
     private void showError(String description, EnigmaError error) {
         DialogUtil.showError(this, description, error);
+    }
+
+    private void showInfo(String title, String details) {
+        DialogUtil.showInfo(this, title, details);
     }
 
     public static void startActivity(Context context, String assetId) {

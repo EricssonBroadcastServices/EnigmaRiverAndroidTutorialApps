@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.redbeemedia.enigma.core.error.AssetGeoBlockedError;
 import com.redbeemedia.enigma.core.error.AssetNotAvailableError;
+import com.redbeemedia.enigma.core.error.DrmKeysExpiredError;
 import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.error.InvalidAssetError;
 import com.redbeemedia.enigma.core.error.NoSupportedMediaFormatsError;
@@ -28,6 +29,7 @@ import com.redbeemedia.enigma.exoplayerintegration.ExoPlayerTech;
 import enigma.redbeemedia.com.downloads.trackui.AbstractSpinner;
 import enigma.redbeemedia.com.downloads.user.UserData;
 import enigma.redbeemedia.com.downloads.user.UserDataHolder;
+import enigma.redbeemedia.com.downloads.util.DialogUtil;
 
 public class PlaybackActivity extends Activity{
     private static final String EXTRA_PLAYABLE = "playable";
@@ -78,6 +80,16 @@ public class PlaybackActivity extends Activity{
         EnigmaPlayer enigmaPlayer = new EnigmaPlayer(MyApplication.getBusinessUnit(), playerImplementation);
         enigmaPlayer.setActivity(this); //Binds the EnigmaPlayer to the lifecycle of this activity.
         enigmaPlayer.setCallbackHandler(callbackHandler);
+        enigmaPlayer.addListener(new BaseEnigmaPlayerListener() {
+            @Override
+            public void onPlaybackError(EnigmaError error) {
+                if(error instanceof DrmKeysExpiredError) {
+                    DialogUtil.showError(PlaybackActivity.this, "Your licence for this asset has expired",error);
+                } else {
+                    DialogUtil.showError(PlaybackActivity.this, "Something went wrong",error);
+                }
+            }
+        });
         return enigmaPlayer;
     }
 
@@ -104,6 +116,8 @@ public class PlaybackActivity extends Activity{
                     showMessage("This asset cannot be played on your device");
                 } else if(error instanceof InvalidAssetError) {
                     showMessage("Could not find asset "+((InvalidAssetError) error).getAssetId());
+                } else if(error instanceof DrmKeysExpiredError) {
+                    showMessage("Your licence for this asset has expired. Please renew");
                 } else {
                     showMessage("Could not start playback of asset");
                 }

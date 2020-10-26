@@ -80,6 +80,13 @@
             android:layout_centerInParent="true"
             />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/downloadCountText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="[Asset downloaded 0/2 times]"
+        android:layout_above="@id/downloadButton"
+        />
     <enigma.redbeemedia.com.downloads.view.AsyncButton
         android:id="@+id/downloadButton"
         android:layout_width="match_parent"

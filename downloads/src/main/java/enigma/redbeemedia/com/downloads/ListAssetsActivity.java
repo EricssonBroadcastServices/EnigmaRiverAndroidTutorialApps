@@ -184,12 +184,6 @@ public class ListAssetsActivity extends Activity {
         DialogUtil.showInfo(this, title, details);
     }
 
-    private void showToast(String message) {
-        AndroidThreadUtil.runOnUiThread(() -> {
-            Toast.makeText(ListAssetsActivity.this, message, Toast.LENGTH_SHORT).show();
-        });
-    }
-
     private class AssetResultHandler implements AssetHelper.IAssetResultHandler {
         private final Runnable onDone;
 

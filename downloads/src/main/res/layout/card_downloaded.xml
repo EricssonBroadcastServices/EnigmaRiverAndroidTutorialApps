@@ -9,9 +9,11 @@
     app:cardCornerRadius="10dp"
     app:cardBackgroundColor="#eeeeee"
     >
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
         <TextView
             android:textSize="15sp"
             android:id="@+id/assetId"
@@ -20,7 +22,6 @@
             android:text="[ASSET_ID]"
             />
         <FrameLayout
-            android:layout_below="@id/assetId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
@@ -38,5 +39,27 @@
                 app:text="Delete"
                 />
         </FrameLayout>
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/drmDataContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            >
+            <enigma.redbeemedia.com.downloads.view.AsyncButton
+                android:id="@+id/renewButton"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:text="Renew"
+                />
+            <TextView
+                android:id="@+id/drmExpiryTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/renewButton"
+                android:layout_centerVertical="true"
+                android:text="[expiry time]"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -16,13 +16,21 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.redbeemedia.enigma.core.error.EnigmaError;
+import com.redbeemedia.enigma.core.error.MaxDownloadCountLimitReachedError;
+import com.redbeemedia.enigma.core.session.ISession;
+import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
 import com.redbeemedia.enigma.download.DownloadedPlayable;
 import com.redbeemedia.enigma.download.EnigmaDownload;
+import com.redbeemedia.enigma.download.IDrmLicence;
+import com.redbeemedia.enigma.download.resulthandler.BaseDrmLicenceRenewResultHandler;
 import com.redbeemedia.enigma.download.resulthandler.BaseResultHandler;
-import com.redbeemedia.enigma.download.resulthandler.IResultHandler;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import enigma.redbeemedia.com.downloads.user.UserData;
+import enigma.redbeemedia.com.downloads.user.UserDataHolder;
 import enigma.redbeemedia.com.downloads.util.DialogUtil;
 import enigma.redbeemedia.com.downloads.view.AsyncButton;
 
@@ -88,7 +96,61 @@ public class ListDownloadsActivity extends Activity {
                 }
             }, handler);
         });
+
+        View drmDataContainer = cardView.findViewById(R.id.drmDataContainer);
+        IDrmLicence drmLicence = downloadedPlayable.getDrmLicence();
+        if(drmLicence != null) {
+            drmDataContainer.setVisibility(View.VISIBLE);
+            setupDrmInfo(drmDataContainer, drmLicence);
+        } else {
+            drmDataContainer.setVisibility(View.GONE);
+        }
+
         viewGroup.addView(cardView);
+    }
+
+    private void setupDrmInfo(View drmDataContainer, IDrmLicence drmLicence) {
+        ExpiryDate expiryDate = new ExpiryDate(drmDataContainer);
+        expiryDate.setExpiryTime(drmLicence.getExpiryTime());
+        AsyncButton renewButton = drmDataContainer.findViewById(R.id.renewButton);
+        UserData userData = UserDataHolder.getUserData();
+        final ISession session;
+        if(userData != null) {
+            session = userData.getSession();
+        } else {
+            session = null;
+        }
+        if(session != null) {
+            renewButton.setText("Renew licence");
+            renewButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    renewButton.setWaiting(true);
+                    drmLicence.renew(session, new BaseDrmLicenceRenewResultHandler() {
+                        @Override
+                        public void onSuccess() {
+                            renewButton.setText("Renewed!");
+                            renewButton.setWaiting(false);
+                            expiryDate.setExpiryTime(drmLicence.getExpiryTime());
+                        }
+
+                        @Override
+                        public void onError(EnigmaError error) {
+                            renewButton.setText("Failed");
+                            renewButton.setWaiting(false);
+                            if(error instanceof MaxDownloadCountLimitReachedError) {
+                                showInfo("Max downloads of asset reached", "You have reached the maximum number of downloads for this asset.");
+                            } else {
+                                showError("Failed to renew DRM licence", error);
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            renewButton.setEnabled(false);
+            renewButton.setText("Not signed in");
+        }
     }
 
     private void showError(String description, EnigmaError error) {
@@ -102,5 +164,26 @@ public class ListDownloadsActivity extends Activity {
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, ListDownloadsActivity.class);
         context.startActivity(intent);
+    }
+
+    private static class ExpiryDate {
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm MMM dd yyyy");
+        private final TextView drmExpiryTimeTextView;
+
+        public ExpiryDate(View cardView) {
+            this.drmExpiryTimeTextView = cardView.findViewById(R.id.drmExpiryTime);
+        }
+
+        public void setExpiryTime(Long expiryTime) {
+            AndroidThreadUtil.runOnUiThread(() -> {
+                if(expiryTime == null) {
+                    drmExpiryTimeTextView.setText("");
+                } else if(expiryTime.longValue() == IDrmLicence.EXPIRY_TIME_UNKNOWN) {
+                    drmExpiryTimeTextView.setText("Expiration time unknown");
+                } else {
+                    drmExpiryTimeTextView.setText("Valid until "+dateFormat.format(new Date(expiryTime)));
+                }
+            });
+        }
     }
 }
