@@ -59,4 +59,28 @@ public class DialogUtil {
             });
         });
     }
+
+    public static void showConfirm(Activity activity, String title, String details, Runnable onConfirm) {
+        AndroidThreadUtil.runOnUiThread(() -> {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+            alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialogBuilder.setTitle(title);
+            if(details != null) {
+                alertDialogBuilder.setMessage(details);
+            }
+            alertDialogBuilder.setCancelable(true);
+            alertDialogBuilder.setPositiveButton("Confirm", (dialog, which) -> {
+                dialog.dismiss();
+                onConfirm.run();
+            });
+            AlertDialog dialog = alertDialogBuilder.show();
+            EnigmaRiverContext.getActivityLifecycleManager().add(activity, new AbstractActivityLifecycleListener() {
+                @Override
+                public void onPause() {
+                    dialog.dismiss();
+                    EnigmaRiverContext.getActivityLifecycleManager().remove(activity, this);
+                }
+            });
+        });
+    }
 }

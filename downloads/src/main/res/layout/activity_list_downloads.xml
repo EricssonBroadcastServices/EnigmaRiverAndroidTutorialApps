@@ -6,12 +6,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/downloadedAssetsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+            <LinearLayout
+                android:id="@+id/downloadsInProgressList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                />
+            <LinearLayout
+                android:id="@+id/downloadedAssetsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
 
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <ProgressBar
