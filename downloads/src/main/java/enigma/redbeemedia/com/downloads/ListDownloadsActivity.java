@@ -30,7 +30,6 @@ import com.redbeemedia.enigma.download.listener.IAssetDownloadListener;
 import com.redbeemedia.enigma.download.resulthandler.BaseDrmLicenceRenewResultHandler;
 import com.redbeemedia.enigma.download.resulthandler.BaseResultHandler;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -100,11 +99,6 @@ public class ListDownloadsActivity extends Activity {
 
         TextView assetIdView = cardView.findViewById(R.id.assetId);
         assetIdView.setText(downloadedPlayable.getAssetId());
-
-        if (downloadedPlayable.getFileSize() > 0) {
-            TextView fileSizeView = cardView.findViewById(R.id.fileSize);
-            fileSizeView.setText("Size: " + new DecimalFormat("###.#").format(((downloadedPlayable.getFileSize() / 1024f) / 1024f)) + " Mb");
-        }
 
         Button playButton = cardView.findViewById(R.id.playButton);
         playButton.setOnClickListener(v -> PlaybackActivity.startActivity(ListDownloadsActivity.this, downloadedPlayable));
