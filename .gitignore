@@ -9,3 +9,5 @@
 /build
 /captures
 .externalNativeBuild
+# An annoying file added by Android Studio
+.env

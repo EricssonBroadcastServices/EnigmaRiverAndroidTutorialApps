@@ -21,6 +21,14 @@
             android:layout_height="wrap_content"
             android:text="[ASSET_ID]"
             />
+        <TextView
+            android:textSize="15sp"
+            android:id="@+id/fileSize"
+            android:layout_below="@id/assetId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[FILE_SIZE]"
+            />
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
