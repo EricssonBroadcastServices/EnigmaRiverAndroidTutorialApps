@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractSpinner<T> extends Spinner {
+public abstract class AbstractSpinner<T> extends androidx.appcompat.widget.AppCompatSpinner {
     private Handler handler;
     private Class<T> trackType;
     private BaseAdapter adapter;

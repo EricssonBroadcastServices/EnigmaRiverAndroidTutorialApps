@@ -152,7 +152,7 @@ public class ConfigureDownloadActivity extends Activity {
 
     private void startDownload() {
         downloadButton.setWaiting(true);
-        enigmaDownload.startAssetDownload(downloadStartRequest, new BaseDownloadStartResultHandler() {
+        enigmaDownload.startAssetDownload(this, downloadStartRequest, new BaseDownloadStartResultHandler() {
             @Override
             public void onStarted() {
                 downloadButton.setWaiting(false);

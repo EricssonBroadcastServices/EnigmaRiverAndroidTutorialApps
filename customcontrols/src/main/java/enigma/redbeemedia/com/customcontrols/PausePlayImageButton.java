@@ -14,7 +14,7 @@ import com.redbeemedia.enigma.core.player.IEnigmaPlayer;
 import com.redbeemedia.enigma.core.player.controls.IEnigmaPlayerControls;
 import com.redbeemedia.enigma.core.player.listener.BaseEnigmaPlayerListener;
 
-public class PausePlayImageButton extends ImageButton {
+public class PausePlayImageButton extends androidx.appcompat.widget.AppCompatImageButton {
 
     private static final String TAG = "custom_controls";
 
@@ -34,12 +34,6 @@ public class PausePlayImageButton extends ImageButton {
 
     public PausePlayImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    @TargetApi(21)
-    public PausePlayImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 

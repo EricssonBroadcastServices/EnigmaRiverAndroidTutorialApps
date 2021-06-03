@@ -21,7 +21,7 @@ import com.redbeemedia.enigma.core.playrequest.PlayRequest;
 import com.redbeemedia.enigma.core.playrequest.BasePlayResultHandler;
 import com.redbeemedia.enigma.core.error.EnigmaError;
 
-public class PlaybackActivity extends Activity{
+public class PlaybackActivity extends Activity {
     public static final String EXTRA_SESSION = "session";
 
     private Handler handler;
