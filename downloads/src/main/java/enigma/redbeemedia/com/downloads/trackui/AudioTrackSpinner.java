@@ -25,7 +25,7 @@ public class AudioTrackSpinner extends AbstractSpinner<IAudioTrack> {
         return new ItemAdapter<IAudioTrack>(object) {
             @Override
             protected String getLabel(IAudioTrack obj) {
-                return obj.getLanguageCode();
+                return obj.getLabel();
             }
         };
     }

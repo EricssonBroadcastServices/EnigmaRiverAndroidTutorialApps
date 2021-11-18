@@ -41,7 +41,7 @@ public class SubtitleTrackSpinner extends AbstractSpinner<ISubtitleTrack> {
                 if(obj == null) {
                     return getResources().getString(R.string.no_subtitles);
                 } else {
-                    return obj.getLanguageCode();
+                    return obj.getLabel();
                 }
             }
         };
