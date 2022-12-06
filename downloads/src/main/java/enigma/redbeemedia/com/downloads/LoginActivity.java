@@ -1,6 +1,5 @@
 package enigma.redbeemedia.com.downloads;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.redbeemedia.enigma.core.context.EnigmaRiverContext;
 import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.error.InvalidCredentialsError;
@@ -18,12 +17,12 @@ import com.redbeemedia.enigma.core.network.BaseNetworkMonitorListener;
 import com.redbeemedia.enigma.core.network.INetworkMonitor;
 import com.redbeemedia.enigma.core.session.ISession;
 import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
-
 import enigma.redbeemedia.com.downloads.user.UserData;
 import enigma.redbeemedia.com.downloads.user.UserDataHolder;
 import enigma.redbeemedia.com.downloads.view.AsyncButton;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity
+{
 
     private Handler handler;
     private EnigmaLogin enigmaLogin;

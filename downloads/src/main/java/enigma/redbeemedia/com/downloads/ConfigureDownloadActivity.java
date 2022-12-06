@@ -1,6 +1,5 @@
 package enigma.redbeemedia.com.downloads;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +12,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.error.MaxDownloadCountLimitReachedError;
 import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
@@ -29,18 +27,18 @@ import com.redbeemedia.enigma.download.SubtitleDownloadable;
 import com.redbeemedia.enigma.download.VideoDownloadable;
 import com.redbeemedia.enigma.download.resulthandler.BaseDownloadStartResultHandler;
 import com.redbeemedia.enigma.download.resulthandler.BaseResultHandler;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import enigma.redbeemedia.com.downloads.user.UserData;
 import enigma.redbeemedia.com.downloads.user.UserDataHolder;
 import enigma.redbeemedia.com.downloads.util.DialogUtil;
 import enigma.redbeemedia.com.downloads.view.AsyncButton;
 import enigma.redbeemedia.com.downloads.view.MultiSelection;
 
-public class ConfigureDownloadActivity extends Activity {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class ConfigureDownloadActivity extends AppCompatActivity
+{
     private static final String EXTRA_ASSET_ID = "assetId";
 
     private final IEnigmaDownload enigmaDownload = new EnigmaDownload(MyApplication.getBusinessUnit());

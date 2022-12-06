@@ -1,7 +1,6 @@
 package enigma.redbeemedia.com.downloads;
 
 import android.animation.LayoutTransition;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.error.MaxDownloadCountLimitReachedError;
 import com.redbeemedia.enigma.core.player.controls.IControlResultHandler;
@@ -29,18 +27,18 @@ import com.redbeemedia.enigma.download.listener.BaseAssetDownloadListener;
 import com.redbeemedia.enigma.download.listener.IAssetDownloadListener;
 import com.redbeemedia.enigma.download.resulthandler.BaseDrmLicenceRenewResultHandler;
 import com.redbeemedia.enigma.download.resulthandler.BaseResultHandler;
+import enigma.redbeemedia.com.downloads.user.UserData;
+import enigma.redbeemedia.com.downloads.user.UserDataHolder;
+import enigma.redbeemedia.com.downloads.util.DialogUtil;
+import enigma.redbeemedia.com.downloads.view.AsyncButton;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import enigma.redbeemedia.com.downloads.user.UserData;
-import enigma.redbeemedia.com.downloads.user.UserDataHolder;
-import enigma.redbeemedia.com.downloads.util.DialogUtil;
-import enigma.redbeemedia.com.downloads.view.AsyncButton;
-
-public class ListDownloadsActivity extends Activity {
+public class ListDownloadsActivity extends AppCompatActivity
+{
     private Handler handler;
     private EnigmaDownload enigmaDownload;
 

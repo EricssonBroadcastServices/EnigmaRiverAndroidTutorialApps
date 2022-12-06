@@ -8,14 +8,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.RedBeeMedia"
         android:supportsRtl="true" >
         <activity android:name=".LoginActivity" />
-        <activity
-            android:name=".PlaybackActivity"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            ></activity>
-        <activity android:name=".ListAssetsActivity">
+        <activity android:name=".PlaybackActivity" android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.RedBeeMedia.Fullscreen" />
+        <activity android:name=".ListAssetsActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

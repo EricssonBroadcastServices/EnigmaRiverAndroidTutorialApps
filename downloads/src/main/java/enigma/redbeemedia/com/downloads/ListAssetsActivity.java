@@ -1,6 +1,5 @@
 package enigma.redbeemedia.com.downloads;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,10 +10,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.redbeemedia.enigma.core.context.EnigmaRiverContext;
 import com.redbeemedia.enigma.core.error.EnigmaError;
 import com.redbeemedia.enigma.core.error.NoSessionRejectionError;
@@ -27,16 +24,16 @@ import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
 import com.redbeemedia.enigma.exposureutils.download.EnigmaDownloadHelper;
 import com.redbeemedia.enigma.exposureutils.models.asset.ApiAsset;
 import com.redbeemedia.enigma.exposureutils.models.localized.ApiLocalizedData;
-
-import java.util.List;
-
 import enigma.redbeemedia.com.downloads.user.UserData;
 import enigma.redbeemedia.com.downloads.user.UserDataHolder;
 import enigma.redbeemedia.com.downloads.util.AssetHelper;
 import enigma.redbeemedia.com.downloads.util.DialogUtil;
 import enigma.redbeemedia.com.downloads.view.AsyncButton;
 
-public class ListAssetsActivity extends Activity {
+import java.util.List;
+
+public class ListAssetsActivity extends AppCompatActivity
+{
     private boolean assetLoadPending = false;
     private Handler handler;
 

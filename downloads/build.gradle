@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
-
-
+    compileSdkVersion 33
+    buildToolsVersion '33.0.1'
 
     defaultConfig {
         applicationId "enigma.redbeemedia.com.downloads"
-        minSdkVersion 19
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -26,50 +25,58 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
-    
+
     packagingOptions {
         exclude 'META-INF/proguard/androidx-annotations.pro'
+        exclude 'META-INF/com.android.tools/proguard/coroutines.pro'
+
     }
 }
 
 repositories {
     maven { url "https://jitpack.io" }
-    google() //Needed for ExoPlayer
-    jcenter() //Needed for ExoPlayer
+    google() //Needed for ExoPlayer & material
+    mavenCentral() //Needed for ExoPlayer
 }
 
 dependencies {
     if(findProject(':core') != null) {
         implementation project(":core")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.4.11'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.4.12-BETA-1'
     }
 
     if(findProject(':exoplayerintegration') != null) {
         implementation project(":exoplayerintegration")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.4.11'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.4.12-BETA-1'
     }
 
     if(findProject(':download') != null) {
         implementation project(":download")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:r3.4.11'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:r3.4.12-BETA-1'
     }
 
     if(findProject(':exoPlayerDownload') != null) {
         implementation project(":exoPlayerDownload")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:r3.4.11'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:r3.4.12-BETA-1'
     }
 
     if(findProject(':exposureUtils') != null) {
         implementation project(":exposureUtils")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:r3.4.11'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:r3.4.12-BETA-1'
     }
 
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
-    implementation("androidx.collection:collection:1.1.0")
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation "androidx.cardview:cardview:1.0.0"
+
+    def appcompat_version = "1.5.1"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.collection:collection:1.2.0'
 }
