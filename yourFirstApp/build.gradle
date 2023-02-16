@@ -38,13 +38,13 @@ dependencies {
     if(findProject(':core') != null) {
         implementation project(":core")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.4.12-BETA-1'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.5.0'
     }
 
     if(findProject(':exoplayerintegration') != null) {
         implementation project(":exoplayerintegration")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.4.12-BETA-1'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.5.0'
     }
 
     implementation("androidx.collection:collection:1.1.0")
