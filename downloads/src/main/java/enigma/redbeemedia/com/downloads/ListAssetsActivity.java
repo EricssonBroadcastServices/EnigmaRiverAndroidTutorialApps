@@ -1,6 +1,8 @@
 package enigma.redbeemedia.com.downloads;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.redbeemedia.enigma.core.context.EnigmaRiverContext;
 import com.redbeemedia.enigma.core.error.EnigmaError;
@@ -30,13 +33,18 @@ import enigma.redbeemedia.com.downloads.util.AssetHelper;
 import enigma.redbeemedia.com.downloads.util.DialogUtil;
 import enigma.redbeemedia.com.downloads.view.AsyncButton;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ListAssetsActivity extends AppCompatActivity
 {
     private boolean assetLoadPending = false;
     private Handler handler;
 
+    private AtomicBoolean downloadServiceFlag = new AtomicBoolean();
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

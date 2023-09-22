@@ -22,6 +22,14 @@
         </activity>
         <activity android:name=".ListDownloadsActivity" />
         <activity android:name=".ConfigureDownloadActivity" />
+
+        <service
+            android:name=".DownloadBackgroundService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="enigma.DOWNLOAD_SERVICE_ACTION" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

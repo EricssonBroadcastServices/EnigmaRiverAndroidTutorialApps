@@ -37,37 +37,38 @@ repositories {
     maven { url "https://jitpack.io" }
     google() //Needed for ExoPlayer & material
     mavenCentral() //Needed for ExoPlayer
+    jcenter() //Needed for ExoPlayer
 }
 
 dependencies {
     if(findProject(':core') != null) {
         implementation project(":core")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.6.4'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.6.5'
     }
 
     if(findProject(':exoplayerintegration') != null) {
         implementation project(":exoplayerintegration")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.6.4'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.6.5'
     }
 
     if(findProject(':download') != null) {
         implementation project(":download")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:r3.6.4'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:r3.6.5'
     }
 
     if(findProject(':exoPlayerDownload') != null) {
         implementation project(":exoPlayerDownload")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:r3.6.4'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:r3.6.5'
     }
 
     if(findProject(':exposureUtils') != null) {
         implementation project(":exposureUtils")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:r3.6.4'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:r3.6.5'
     }
 
     implementation 'com.google.android.material:material:1.6.0'

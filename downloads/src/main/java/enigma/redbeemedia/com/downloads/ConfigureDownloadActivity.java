@@ -1,9 +1,13 @@
 package enigma.redbeemedia.com.downloads;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,10 +16,13 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.exoplayer2.util.Log;
 import com.redbeemedia.enigma.core.error.EnigmaError;
-import com.redbeemedia.enigma.core.error.MaxDownloadCountLimitReachedError;
 import com.redbeemedia.enigma.core.util.AndroidThreadUtil;
 import com.redbeemedia.enigma.download.AudioDownloadable;
 import com.redbeemedia.enigma.download.DownloadStartRequest;
@@ -25,20 +32,19 @@ import com.redbeemedia.enigma.download.IDownloadablePart;
 import com.redbeemedia.enigma.download.IEnigmaDownload;
 import com.redbeemedia.enigma.download.SubtitleDownloadable;
 import com.redbeemedia.enigma.download.VideoDownloadable;
-import com.redbeemedia.enigma.download.resulthandler.BaseDownloadStartResultHandler;
 import com.redbeemedia.enigma.download.resulthandler.BaseResultHandler;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import enigma.redbeemedia.com.downloads.user.UserData;
 import enigma.redbeemedia.com.downloads.user.UserDataHolder;
 import enigma.redbeemedia.com.downloads.util.DialogUtil;
 import enigma.redbeemedia.com.downloads.view.AsyncButton;
 import enigma.redbeemedia.com.downloads.view.MultiSelection;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-public class ConfigureDownloadActivity extends AppCompatActivity
-{
+public class ConfigureDownloadActivity extends AppCompatActivity {
     private static final String EXTRA_ASSET_ID = "assetId";
 
     private final IEnigmaDownload enigmaDownload = new EnigmaDownload(MyApplication.getBusinessUnit());
@@ -149,24 +155,37 @@ public class ConfigureDownloadActivity extends AppCompatActivity
     }
 
     private void startDownload() {
+        Intent serviceIntent = new Intent(this, DownloadBackgroundService.class);
+        //startForegroundService(serviceIntent);
+        startService(serviceIntent); // Start the service if it's not already running
         downloadButton.setWaiting(true);
-        enigmaDownload.startAssetDownload(this, downloadStartRequest, new BaseDownloadStartResultHandler() {
+        ConfigureDownloadActivity thisC = this;
+        ServiceConnection serviceConnection = new ServiceConnection() {
             @Override
-            public void onStarted() {
-                downloadButton.setWaiting(false);
-                finishAndToast("Download started");
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                // Add download to the queue
+                Log.d(DOWNLOAD_SERVICE,"Added asset to the queue");
+                DownloadBackgroundService.DownloadServiceBinder binder = (DownloadBackgroundService.DownloadServiceBinder) service;
+                DownloadBackgroundService downloadService = binder.getService();
+
+                // Add assets to the download queue
+                downloadService.addToDownloadQueue(enigmaDownload, thisC, "", downloadStartRequest);
+                // Add more assets as needed
+                //downloadButton.setWaiting(false);
+                Toast.makeText(getApplicationContext(), "Download is in queue and it will start shortly.", Toast.LENGTH_SHORT).show();
+
+                finish();
+                //ListDownloadsActivity.startActivity(ConfigureDownloadActivity.this);
+
             }
 
             @Override
-            public void onError(EnigmaError error) {
-                downloadButton.setWaiting(false);
-                if(error instanceof MaxDownloadCountLimitReachedError) {
-                    showInfo("Max download count reached", "You have reached your maximum number of downloads of this asset.");
-                } else {
-                    showError("Could not start download", error);
-                }
+            public void onServiceDisconnected(ComponentName name) {
             }
-        }, handler);
+        };
+
+        serviceIntent.setAction("enigma.DOWNLOAD_SERVICE_ACTION"); // Set the action to match the one declared in the manifest
+        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void finishAndToast(String message) {
