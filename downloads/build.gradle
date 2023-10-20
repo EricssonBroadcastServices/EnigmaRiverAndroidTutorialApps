@@ -44,31 +44,31 @@ dependencies {
     if(findProject(':core') != null) {
         implementation project(":core")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.6.6'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.7.0-BETA-1'
     }
 
     if(findProject(':exoplayerintegration') != null) {
         implementation project(":exoplayerintegration")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.6.6'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.7.0-BETA-1'
     }
 
     if(findProject(':download') != null) {
         implementation project(":download")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:r3.6.6'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:r3.7.0-BETA-1'
     }
 
     if(findProject(':exoPlayerDownload') != null) {
         implementation project(":exoPlayerDownload")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:r3.6.6'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:r3.7.0-BETA-1'
     }
 
     if(findProject(':exposureUtils') != null) {
         implementation project(":exposureUtils")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:r3.6.6'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:r3.7.0-BETA-1'
     }
 
     implementation 'com.google.android.material:material:1.6.0'
