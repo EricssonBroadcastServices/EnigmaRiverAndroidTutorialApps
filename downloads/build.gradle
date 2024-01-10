@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion '33.0.1'
 
     defaultConfig {
         applicationId "enigma.redbeemedia.com.downloads"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -39,36 +39,40 @@ repositories {
     mavenCentral() //Needed for ExoPlayer
     jcenter() //Needed for ExoPlayer
 }
+dependencies {
+    classpath "com.android.tools.build:gradle:7.4.2"
+}
+
 
 dependencies {
     if(findProject(':core') != null) {
         implementation project(":core")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.7.5-BETA-1'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:__REPLACE_WITH_RELEASE_VERSION__'
     }
 
     if(findProject(':exoplayerintegration') != null) {
         implementation project(":exoplayerintegration")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.7.5-BETA-1'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:__REPLACE_WITH_RELEASE_VERSION__'
     }
 
     if(findProject(':download') != null) {
         implementation project(":download")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:r3.7.5-BETA-1'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:download:__REPLACE_WITH_RELEASE_VERSION__'
     }
 
     if(findProject(':exoPlayerDownload') != null) {
         implementation project(":exoPlayerDownload")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:r3.7.5-BETA-1'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoPlayerDownload:__REPLACE_WITH_RELEASE_VERSION__'
     }
 
     if(findProject(':exposureUtils') != null) {
         implementation project(":exposureUtils")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:r3.7.5-BETA-1'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exposureUtils:__REPLACE_WITH_RELEASE_VERSION__'
     }
 
     implementation 'com.google.android.material:material:1.6.0'
