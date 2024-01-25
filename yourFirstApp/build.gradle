@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "enigma.redbeemedia.com.yourFirstApp"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 34
         versionCode 1
         versionName "1.0"
@@ -38,13 +38,13 @@ dependencies {
     if(findProject(':core') != null) {
         implementation project(":core")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.7.5-BETA-5'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:core:r3.7.5-BETA-6'
     }
 
     if(findProject(':exoplayerintegration') != null) {
         implementation project(":exoplayerintegration")
     } else {
-        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.7.5-BETA-5'
+        implementation 'com.github.EricssonBroadcastServices.EnigmaRiverAndroid:exoplayerintegration:r3.7.5-BETA-6'
     }
 
     implementation("androidx.collection:collection:1.1.0")
